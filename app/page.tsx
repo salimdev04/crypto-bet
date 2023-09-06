@@ -2,17 +2,46 @@
 
 import { ethers } from "ethers";
 import Image from "next/image";
+import { useState } from "react";
+import { CONTRACT_ADDRESS } from "../utils/constant";
+import contract_abi from "../contract/abis/GetUUserAdress.json";
 
 export default function Home() {
+  const [address, setAdress] = useState("");
+  const [userSigner, setSigner] = useState();
+
   const connexion = async () => {
     console.log("connect metamask");
     //@ts-ignore
     const provider = new ethers.BrowserProvider(window.ethereum);
 
     await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner();
-    const myAddress = (await signer).getAddress();
-    console.log(myAddress);
+    const signer = await provider.getSigner();
+
+    //@ts-ignore
+    setSigner(signer);
+    signer.getAddress().then((res) => {
+      setAdress(res);
+      console.log(res);
+    });
+  };
+
+  const sendUserAddress = async () => {
+    console.log("usser signer: ", userSigner);
+    const contract = new ethers.Contract(
+      CONTRACT_ADDRESS.GET_USER_ADDRESS!,
+      contract_abi,
+      userSigner
+    );
+
+    contract
+      .setUserAdress(address)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <main className="">
@@ -23,6 +52,12 @@ export default function Home() {
           Get Started
         </button>
       </header>
+
+      <section>
+        <h3>User Adress: {address}</h3>
+
+        <button onClick={() => sendUserAddress()}>Send Address</button>
+      </section>
     </main>
   );
 }
