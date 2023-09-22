@@ -5,10 +5,12 @@ import Image from "next/image";
 import { useState } from "react";
 import { CONTRACT_ADDRESS } from "../utils/constant";
 import contract_abi from "../contract/abis/GetUUserAdress.json";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [address, setAdress] = useState("");
   const [userSigner, setSigner] = useState();
+  const router = useRouter();
 
   const connexion = async () => {
     console.log("connect metamask");
@@ -23,6 +25,7 @@ export default function Home() {
     signer.getAddress().then((res) => {
       setAdress(res);
       console.log(res);
+      router.push("/start-betting");
     });
   };
 

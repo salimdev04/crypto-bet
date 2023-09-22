@@ -1,0 +1,22 @@
+[
+    {
+        "crypto": "BTC",
+        "address": ""
+    },
+    {
+        "crypto": "ETH",
+        "address": ""
+    },
+    {
+        "crypto": "BNB",
+        "address": ""
+    },
+    {
+        "crypto": "DAI",
+        "address": ""
+    },
+    {
+        "crypto": "USDC",
+        "address": ""
+    }
+]
