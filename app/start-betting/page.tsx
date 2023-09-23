@@ -20,10 +20,18 @@ import cryptos from "../../data/crypto.json";
 
 export default function StartBetting() {
   const [isOpen, setOpen] = useState(false);
+  const [userStack, setStack] = useState([]);
 
-  const handleSelect = (e: any) => {
+  const handleSelect = (item: any) => {
     console.log("Select...");
-    console.log(e.target.value);
+    console.log(item);
+    //@ts-ignore
+    setStack((prev) => [...prev, item]);
+  };
+
+  const setMyDick = () => {
+    console.log("sending dick");
+    console.log(userStack);
   };
 
   return (
@@ -41,23 +49,45 @@ export default function StartBetting() {
           <p>V</p>
         </div>
         {isOpen && (
-          <div className="absolute w-[30%] p-4 mx-auto border">
+          <div className="absolute w-[30%] left-[35%]  p-4 mx-auto border">
             {cryptos.map((item, i) => (
-              <div key={i}>
+              <div
+                className="cursor-pointer border"
+                key={i}
+                onClick={() => handleSelect(item)}
+              >
                 <p>{item.crypto}</p>
               </div>
             ))}
           </div>
         )}
       </div>
-      <section className="flex mt-[500px] justify-around gap-[4rem] mx-[4rem]">
+      <section className="flex mt-[200px] justify-around gap-[4rem] mx-[4rem]">
         <Card className="w-full p-4">
           <CardTitle>Your Stack</CardTitle>
+          <CardContent>
+            {userStack.map((item, i) => (
+              <div key={i}>
+                {
+                  //@ts-ignore
+                  item.crypto
+                }
+              </div>
+            ))}
+          </CardContent>
         </Card>
 
         <Card className="w-full p-4">
           <CardTitle>More Parametters</CardTitle>
         </Card>
+      </section>
+      <section className="p-4 flex justify-center">
+        <button
+          onClick={() => setMyDick()}
+          className="p-2 border w-[200px] bg-black text-white"
+        >
+          play
+        </button>
       </section>
     </main>
   );
